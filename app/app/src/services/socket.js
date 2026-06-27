@@ -1,4 +1,5 @@
-const WS_URL = "ws://localhost:8000/ws/status";
+// Dynamically resolves to ws://<YOUR_VM_IP>:8000/ws/status or ws://localhost:8000/ws/status
+const WS_URL = `ws://${window.location.hostname}:8000/ws/status`;
 
 class SocketService {
   constructor() {
@@ -11,10 +12,10 @@ class SocketService {
     this.socket = new WebSocket(WS_URL);
 
     this.socket.onmessage = (event) => {
-     const data = JSON.parse(event.data);
-     console.log("WS DATA:", data); // temporary log
-     this.callbacks.forEach((cb) => cb(data));
-};
+      const data = JSON.parse(event.data);
+      console.log("WS DATA:", data); // temporary log
+      this.callbacks.forEach((cb) => cb(data));
+    };
 
     this.socket.onerror = (err) => console.error("WebSocket error:", err);
 

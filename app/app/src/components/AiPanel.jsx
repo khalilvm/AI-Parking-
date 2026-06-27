@@ -9,7 +9,8 @@ export default function AiPanel() {
 
   useEffect(() => {
     const fetch_data = () => {
-      fetch("http://localhost:8000/api/analytics")
+      // Dynamically resolves to your Red Hat VM IP or localhost depending on execution environment
+      fetch(`http://${window.location.hostname}:8000/api/analytics`)
         .then((r) => r.json())
         .then((d) => { setData(d); setError(false); })
         .catch(() => setError(true));
@@ -21,7 +22,8 @@ export default function AiPanel() {
 
   const handleTrain = () => {
     setTraining(true);
-    fetch("http://localhost:8000/api/train", { method: "POST" })
+    // Dynamically targeting the training pipeline endpoint
+    fetch(`http://${window.location.hostname}:8000/api/train`, { method: "POST" })
       .then((r) => r.json())
       .then((d) => { setTrainResult(d); setTraining(false); })
       .catch(() => setTraining(false));
@@ -151,4 +153,3 @@ const trainBtn = {
   cursor: "pointer",
   fontSize: 12,
 };
-
